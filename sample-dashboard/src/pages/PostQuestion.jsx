@@ -39,23 +39,24 @@ const PostQuestion = ({ onQuestionSubmit }) => {
 <div>
       <div className="bg-white-100">
         {/* ======= Header ======= */}
-        <header id="header" className="font-bold header top-0 flex items-center bg-violet-900 text-white">
+        <header id="header" className="header top-0 flex items-center font-bold bg-violet-900 text-white">
           <div className="flex items-center justify-between p-5">
             <a href="#" className="logo flex items-center">
-              <span className="hidden lg:block text-3xl">Tech Query</span>
+              <span className="hidden lg:block text-3xl">Tech Query | PostQuestion</span>
             </a>
           </div>
         </header>
         <main id="main" className="main">
           <div className="pagetitle">
+            
             <nav>
-              <ol className=" font-semibold flex flex-wrap list-reset pt-3 pb-3 py-4 px-4 mt-4 mb-4 bg-white-100 rounded">
-                <li className="font-bold inline-block px-2 py-2 text-gray-700 text-md">
+              <ol className="flex flex-wrap list-reset pt-3 pb-3 py-4 px-4 mt-4 mb-4 font-semibold bg-white-100 rounded">
+                <li className="font-bold inline-block px-2 py-2 text-gray-700">
                   <a href="#">
                     <b>Home</b>
                   </a>
                 </li>
-                <li className="font-bold inline-block px-2 py-2 text-gray-700 active text-md">
+                <li className="font-bold inline-block px-2 py-2 text-gray-700 active">
                   <a href="/">
                     <b>Dashboard</b>
                   </a>
@@ -64,10 +65,10 @@ const PostQuestion = ({ onQuestionSubmit }) => {
             </nav>
           </div>
           {/* End Page Title */}
-          <div className="lg:w-2/3 pr-4 pl-4">
+          <div className="lg:w-full pr-4 pl-4">
             <div className="relative flex flex-col h-[100%] min-w-0 rounded break-words border bg-purple-200 border-1 border-black-300 info-card revenue-card">
               <div className="flex-auto p-6 ">
-                <h5 className="font-semibold mb-3 text-2xl">Post a Question</h5>
+                <h5 className="mb-3 text-2xl font-semibold">Post a Question</h5>
                 <form onSubmit={handleSubmit} onReset={handleReset}>
                   {/* Question ID */}
                   <div className="mb-4">

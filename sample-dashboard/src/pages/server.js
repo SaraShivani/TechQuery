@@ -44,7 +44,13 @@ app.get('/api/get-questions', (req, res) => {
 });
 app.get('/api/questions/:category', (req, res) => {
   const category = req.params.category;
-  const query = 'SELECT q.*, a.explanation AS submittedAnswer FROM questions q LEFT JOIN answers a ON q.questionId = a.questionId WHERE q.topic = ?';
+  const query = `
+    SELECT q.*, a.explanation AS answerExplanation
+    FROM questions q
+    LEFT JOIN answers a ON q.questionId = a.questionId
+    WHERE q.topic = ?
+    ORDER BY q.createdAt DESC
+  `;
   pool.query(query, [category], (error, results) => {
     if (error) {
       console.error('Error fetching category questions:', error);
@@ -54,6 +60,31 @@ app.get('/api/questions/:category', (req, res) => {
     return res.status(200).json(results);
   });
 });
+
+
+app.get('/api/question-details/:questionId', (req, res) => {
+  const questionId = req.params.questionId;
+  const query = `
+    SELECT q.*, a.explanation, a.codeSnippet, a.attachment
+    FROM questions q
+    LEFT JOIN answers a ON q.questionId = a.questionId
+    WHERE q.questionId = ?
+  `;
+  pool.query(query, [questionId], (error, results) => {
+    if (error) {
+      console.error('Error fetching question details:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ error: 'Question not found' });
+    }
+
+    return res.status(200).json(results[0]);
+  });
+});
+
+
 app.post('/api/submit-answer/:questionId', (req, res) => {
   const questionId =req.params.questionId;
   const { explanation, codeSnippet, attachment } = req.body;
@@ -84,17 +115,16 @@ app.get('/api/user-answers', (req, res) => {
   });
 });
 
-app.get('/api/user-points', (req, res) => {
-  // Fetch user points
-  const userId = 1; // Replace with the actual user ID
-  const query = 'SELECT SUM(points) AS points FROM answers WHERE userId = ?';
-  pool.query(query, [userId], (error, results) => {
+// server.js
+app.get('/api/get-latest-questions', (req, res) => {
+  const query = 'SELECT * FROM questions ORDER BY createdAt DESC LIMIT 5'; // Adjust the limit as needed
+  pool.query(query, (error, results) => {
     if (error) {
-      console.error('Error fetching user points:', error);
+      console.error('Error fetching latest questions:', error);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
 
-    return res.status(200).json(results[0]);
+    return res.status(200).json(results);
   });
 });
 

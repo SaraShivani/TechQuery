@@ -8,8 +8,8 @@ const Login = ({ setAuthenticated }) => {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    const hardcodedUsername = 'user1';
-    const hardcodedPassword = 'password1';
+    const hardcodedUsername = 'user';
+    const hardcodedPassword = 'pass';
 
     if (username === hardcodedUsername && password === hardcodedPassword) {
       setAuthenticated(true);

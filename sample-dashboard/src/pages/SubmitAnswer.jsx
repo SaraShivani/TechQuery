@@ -45,25 +45,25 @@ const SubmitAnswer = () => {
 
   return (
     <div>
-      <div className="bg-gradient-to-r from-blue-300 via-emerald-200 to-green-700">
-        <header id="header" className="header top-0 flex items-center">
+      <div className="bg-white-900">
+        <header id="header" className="font-bold text-white bg-violet-900 header top-0 flex items-center">
           <div className="flex items-center justify-between p-5">
             <a href="#" className="logo flex items-center">
-              <span className="hidden lg:block text-3xl">Tech Query</span>
+              <span className="hidden lg:block text-3xl">Tech Query | Submit Answer</span>
             </a>
           </div>
         </header>
         <main id="main" className="main">
           <div className="pagetitle">
-            <h1 className="pl-5 text-4xl">Submit Answer</h1>
+            
             <nav>
-              <ol className="flex flex-wrap list-reset pt-3 pb-3 py-4 px-4 mt-4 mb-4 bg-emerald-200 rounded">
-                <li className="inline-block px-2 py-2 text-gray-700">
+              <ol className="flex flex-wrap list-reset pt-3 pb-3 py-4 px-4 mt-4 mb-4 font-semibold bg-white-100 rounded">
+                <li className="font-bold inline-block px-2 py-2 text-gray-700">
                   <a href="#">
                     <b>Home</b>
                   </a>
                 </li>
-                <li className="inline-block px-2 py-2 text-gray-700 active">
+                <li className="font-bold inline-block px-2 py-2 text-gray-700 active">
                   <a href="/">
                     <b>Dashboard</b>
                   </a>
@@ -71,8 +71,8 @@ const SubmitAnswer = () => {
               </ol>
             </nav>
           </div>
-          <div className="lg:w-2/3 pr-4 pl-4">
-            <div className="relative flex flex-col h-[100%] min-w-0 rounded break-words border bg-blue-300 border-1 border-black-300 info-card revenue-card">
+          <div className="lg:w-full pr-4 pl-4">
+            <div className="relative flex flex-col h-[100%] min-w-0 rounded break-words border bg-purple-200 border-1 border-black-300 info-card revenue-card">
               <div className="flex-auto p-6 ">
                 <h5 className="mb-3 text-2xl">Submit an Answer</h5>
                 <form onSubmit={handleSubmit} onReset={handleReset}>
@@ -119,13 +119,13 @@ const SubmitAnswer = () => {
                   <div className="flex items-center justify-between">
                     <button
                       type="submit"
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-purple-900 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                       Submit
                     </button>
                     <button
                       type="reset"
-                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                      className="bg-purple-900 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
                       Reset
                     </button>
