@@ -57,7 +57,16 @@ app.get('/api/questions/:category', (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
 
-    return res.status(200).json(results);
+    const formattedResults = results.map((result) => ({
+      questionId: result.questionId,
+      name: result.name,
+      topic: result.topic,
+      codeSnippet: result.codeSnippet,
+      createdAt: result.createdAt,
+      answerExplanation: result.answerExplanation,
+    }));
+
+    return res.status(200).json(formattedResults);
   });
 });
 
@@ -127,7 +136,63 @@ app.get('/api/get-latest-questions', (req, res) => {
     return res.status(200).json(results);
   });
 });
+app.get('/api/total-answers/:questionId', (req, res) => {
+  const questionId = req.params.questionId;
+  // Implement logic to fetch all answers for the specified question
+  const query = `
+    SELECT *
+    FROM answers
+    WHERE questionId = ?
+  `;
+  pool.query(query, [questionId], (error, results) => {
+    if (error) {
+      console.error('Error fetching total answers:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
 
+    return res.status(200).json(results);
+  });
+});
+
+
+// New endpoint to handle like and dislike
+app.post('/api/like-answer/:answerId', (req, res) => {
+  const answerId = req.params.answerId;
+  const { action } = req.body;
+
+  // Increment likes or dislikes based on the action
+  const columnName = action === 'like' ? 'likes' : 'dislikes';
+  const query = `UPDATE answers SET ${columnName} = ${columnName} + 1 WHERE answerId = ?`;
+
+  pool.query(query, [answerId], (error, results) => {
+    if (error) {
+      console.error(`Error updating ${columnName} for answer:`, error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    console.log(`${columnName} updated successfully`);
+    return res.status(200).json({ success: true });
+  });
+});
+app.get('/api/top-answer/:questionId', (req, res) => {
+  const questionId = req.params.questionId;
+  const query = `
+    SELECT explanation
+    FROM answers
+    WHERE questionId = ?
+    ORDER BY likes DESC
+    LIMIT 1
+  `;
+  pool.query(query, [questionId], (error, results) => {
+    if (error) {
+      console.error('Error fetching top answer:', error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    const topAnswer = results[0] ? results[0].explanation : null;
+    return res.status(200).json({ explanation: topAnswer });
+  });
+});
 
 const PORT = 8080;
 app.listen(PORT, () => {

@@ -7,6 +7,7 @@ import { Navigate } from 'react-router-dom';
 import Login from './auth/Login';
 import SubmitAnswer from './pages/SubmitAnswer';
 import QuestionDetails from './pages/QuestionDetails';
+import TotalAnswers from './pages/TotalAnswers';
 
 // Import CategoryQuestions at the top
 import CategoryQuestions from './pages/CategoryQuestions';
@@ -42,6 +43,7 @@ function AppRoutes({ questions, onQuestionSubmit, onAnswerSubmit, isAuthenticate
         )}
       />
 <Route path="/question-details/:questionId" element={<QuestionDetails />} />
+<Route path="/total-answers/:questionId" element={<TotalAnswers />} />
       {/* Remove the "/questions/:category" route */}
     </Routes>
   );

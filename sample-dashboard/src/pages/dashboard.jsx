@@ -129,18 +129,27 @@ const Dashboard = () => {
                         <h5 className="mb-3 text-2xl font-semibold">{selectedCategory ? `Questions - ${selectedCategory}` : 'Latest Questions'}</h5>
                         <div className="flex items-center">
                           <ul>
-                          {questions.map((question) => (
-  <li key={question.id}>
-    <b>{question.name}{' '}</b>
+                          {questions.reduce((uniqueQuestions, question) => {
+  const existingQuestion = uniqueQuestions.find(q => q.questionId === question.questionId);
+  
+  if (!existingQuestion) {
+    uniqueQuestions.push(question);
+  }
+
+  return uniqueQuestions;
+}, []).map((uniqueQuestion) => (
+  <li key={uniqueQuestion.id}>
+    <Link to={`/total-answers/${uniqueQuestion.questionId}`}>
+      <b>{uniqueQuestion.name}</b> 
+    </Link>
     {/* Display the answer explanation for category-based questions */}
-    {selectedCategory && question.answerExplanation && (
-      <p><b>Answer:</b><i>{`${question.answerExplanation.substring(0, 100)}${question.answerExplanation.length > 100 ? '...' : ''}`}</i></p>
+    {selectedCategory && uniqueQuestion.answerExplanation && (
+      <p><b> Top Answer:</b><i>{`${uniqueQuestion.answerExplanation.substring(0, 100)}${uniqueQuestion.answerExplanation.length > 100 ? '...' : ''}`}</i></p>
     )}
     {/* "See More" link to navigate to detailed answer view */}
-    {question.answerExplanation && question.answerExplanation.length > 100 && (
+    {uniqueQuestion.answerExplanation && uniqueQuestion.answerExplanation.length > 100 && (
       <>
-
-        <Link to={`/question-details/${question.questionId}`}>
+        <Link to={`/question-details/${uniqueQuestion.questionId}`}>
           <p className="text-red-500 cursor-pointer">
             See More
           </p>
@@ -148,16 +157,16 @@ const Dashboard = () => {
       </>
     )}
     {/* Check if there are existing answers for the question */}
-    {question.answerExplanation ? (
+    {uniqueQuestion.answerExplanation ? (
       // If there are existing answers, display "Submit Another Response" button
-      <Link to={`/submit-answer/${question.questionId}`}>
+      <Link to={`/submit-answer/${uniqueQuestion.questionId}`}>
         <button className="ml-2 px-2 py-1 bg-blue-500 text-white rounded">
           Submit Another Response
         </button>
       </Link>
     ) : (
       // If no existing answers, display the "Answer" button
-      <Link to={`/submit-answer/${question.questionId}`}>
+      <Link to={`/submit-answer/${uniqueQuestion.questionId}`}>
         <button className="ml-2 px-2 py-1 bg-blue-500 text-white rounded">
           Answer
         </button>
